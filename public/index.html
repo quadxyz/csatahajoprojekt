@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="hu" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Torpedó</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
+  </head>
+    <script>
+     function toggleMute() {
+  var myAudio = document.getElementById('audio_playo24');
+  var speakerIcon = document.getElementById('speaker_icon');
+  
+  // Ha az audio még nem játszik, indítsuk el a lejátszást
+  if (myAudio.paused) {
+    myAudio.play().then(() => {
+      console.log('Audio is playing');
+    }).catch((error) => {
+      console.log('Audio play was prevented:', error);
+    });
+  }
+
+  // Némítás állapot váltása
+  myAudio.muted = !myAudio.muted;
+
+  // Ikon váltás
+  if (myAudio.muted) {
+    speakerIcon.innerHTML = '🔇'; // Némított ikon
+  } else {
+    speakerIcon.innerHTML = '🔊'; // Nem némított ikon
+  }
+}
+
+// Eseményfigyelő az oldal betöltésekor
+window.onload = function() {
+  var speakerIcon = document.getElementById('speaker_icon');
+
+  // Beállítjuk az alapértelmezett némított ikont
+  speakerIcon.innerHTML = '🔇';
+}
+
+   </script>
+</head>
+<body>
+  <div class="speaker-icon" id="speaker_icon" onclick="toggleMute()">🔇</div>
+   
+  <!-- Audio element (elrejtve) -->
+  <audio id="audio_playo24" loop>
+     <source src="voice/intro1.mp3" type="audio/mp3" />
+     Your browser does not support the audio element.
+  </audio>
+
+    <div class="splash-container">
+      <h1 class="splash-title">Torpedó</h1>
+      <div>
+        <a href="/singleplayer.html" class="btn splash-btn">Egy személyes mód</a>
+        <a href="/multiplayer.html" class="btn splash-btn">Két személyes mód</a>
+      </div>
+    </div>
+    <img src="/images/torpedo.png" class="splash-battleship-image">
+  </body>
+</html>
