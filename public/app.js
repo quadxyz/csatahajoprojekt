@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Another player has connected or disconnected
     socket.on('player-connection', num => {
-      console.log(`Player number ${num} has connected or disconnected`)
+      console.log(`A játékos ${num} csatlakozott vagy lecsatlakozott`)
       playerConnectedOrDisconnected(num)
     })
 
@@ -121,13 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // On Timeout
     socket.on('timeout', () => {
-      infoDisplay.innerHTML = 'Elérted a 10 perecs limitet.'
+      infoDisplay.innerHTML = 'Elérted a 10 perces időkorlátot'
     })
 
     // Ready button click
     startButton.addEventListener('click', () => {
       if(allShipsPlaced) playGameMulti(socket)
-      else infoDisplay.innerHTML = "Kérlek rakd le az összes hajód."
+      else infoDisplay.innerHTML = "Kérlek tedd le az összes hajót"
     })
 
     // Setup event listeners for firing
@@ -320,10 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(enemyReady) {
       if(currentPlayer === 'user') {
-        turnDisplay.innerHTML = 'Te következel'
+        turnDisplay.innerHTML = 'Te jössz'
       }
       if(currentPlayer === 'enemy') {
-        turnDisplay.innerHTML = "Az ellenfél következik"
+        turnDisplay.innerHTML = "Az ellenség jön"
       }
     }
   }
@@ -337,14 +337,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function playGameSingle() {
     if (isGameOver) return
     if (currentPlayer === 'user') {
-      turnDisplay.innerHTML = 'Te következel'
+      turnDisplay.innerHTML = 'Te jössz'
       computerSquares.forEach(square => square.addEventListener('click', function(e) {
         shotFired = square.dataset.id
         revealSquare(square.classList)
       }))
     }
     if (currentPlayer === 'enemy') {
-      turnDisplay.innerHTML = 'A számítógép következik.'
+      turnDisplay.innerHTML = 'Az ellenség jön'
       setTimeout(enemyGo, 1000)
     }
   }
@@ -387,6 +387,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!userSquares[square].classList.contains('boom')) {
       const hit = userSquares[square].classList.contains('taken')
       userSquares[square].classList.add(hit ? 'boom' : 'miss')
+      const audio = new Audio(hit ? './voice/explosion.mp3' : './voice/shot.mp3');
+      audio.play();
       if (userSquares[square].classList.contains('destroyer')) cpuDestroyerCount++
       if (userSquares[square].classList.contains('submarine')) cpuSubmarineCount++
       if (userSquares[square].classList.contains('cruiser')) cpuCruiserCount++
@@ -395,61 +397,79 @@ document.addEventListener('DOMContentLoaded', () => {
       checkForWins()
     } else if (gameMode === 'singlePlayer') enemyGo()
     currentPlayer = 'user'
-    turnDisplay.innerHTML = 'Te következel'
+    turnDisplay.innerHTML = 'Te jössz'
   }
 
   function checkForWins() {
-    let enemy = 'computer'
-    if(gameMode === 'multiPlayer') enemy = 'enemy'
+    let enemy = 'számítógép'
+    if(gameMode === 'multiPlayer') enemy = 'ellenség'
     if (destroyerCount === 2) {
-      messages.push(`Elsüllyesztetted az ${enemy} rombolóját`);
-      destroyerCount = 10;
+      infoDisplay.innerHTML = `Elsüllyesztetted a(z) ${enemy} rombolóját.`
+      destroyerCount = 10
     }
     if (submarineCount === 3) {
-      messages.push(`Elsüllyesztetted az ${enemy} tengeralattjáróját`);
-      submarineCount = 10;
+      infoDisplay.innerHTML = `Elsüllyesztetted a(z) ${enemy}  tengeralattjáróját.`
+      submarineCount = 10
     }
     if (cruiserCount === 3) {
-      messages.push(`Elsüllyesztetted az ${enemy} cirkálóját`);
-      cruiserCount = 10;
+      infoDisplay.innerHTML =  `Elsüllyesztetted a(z) ${enemy} cirkálóját.`
+      cruiserCount = 10
+      const audio = new Audio('./voice/aaa.mp3');
+        audio.play();
     }
     if (battleshipCount === 4) {
-      messages.push(`Elsüllyesztetted az ${enemy} csatahajóját`);
-      battleshipCount = 10;
+      infoDisplay.innerHTML =  `Elsüllyesztetted a(z) ${enemy} csatahajóját.`
+      battleshipCount = 10
+      const audio = new Audio('./voice/aaa.mp3');
+      audio.play();
     }
     if (carrierCount === 5) {
-      messages.push(`Elsüllyesztetted az ${enemy} repülőgép-hordozóját`);
-      carrierCount = 10;
+      infoDisplay.innerHTML =  `Elsüllyesztetted a(z) ${enemy} anyahajóját.`
+      carrierCount = 10
+      const audio = new Audio('./voice/aaa.mp3');
+      audio.play();
     }
-  
     if (cpuDestroyerCount === 2) {
-      messages.push(`${enemy} elsüllyesztette a rombolódat`);
-      cpuDestroyerCount = 10;
+      infoDisplay.innerHTML = `${enemy} elsüllyesztette a rombolódat.`
+      cpuDestroyerCount = 10
+      const audio = new Audio('./voice/nein.mp3');
+      audio.play();
     }
     if (cpuSubmarineCount === 3) {
-      messages.push(`${enemy} elsüllyesztette a tengeralattjáródat`);
-      cpuSubmarineCount = 10;
+      infoDisplay.innerHTML = `${enemy} elsüllyesztette a tengeralattjáródat.`
+      cpuSubmarineCount = 10
+      const audio = new Audio('./voice/nein.mp3');
+      audio.play();
     }
     if (cpuCruiserCount === 3) {
-      messages.push(`${enemy} elsüllyesztette a cirkálódat`);
-      cpuCruiserCount = 10;
+      infoDisplay.innerHTML = `${enemy} elsüllyesztette a cirkálódat.`
+      cpuCruiserCount = 10
+      const audio = new Audio('./voice/nein.mp3');
+      audio.play();
     }
     if (cpuBattleshipCount === 4) {
-      messages.push(`${enemy} elsüllyesztette a csatahajódat`);
-      cpuBattleshipCount = 10;
+      infoDisplay.innerHTML = `${enemy} elsüllyesztette a csatahajódat.`
+      cpuBattleshipCount = 10
+      const audio = new Audio('./voice/nein.mp3');
+      audio.play();
     }
     if (cpuCarrierCount === 5) {
-      messages.push(`${enemy} elsüllyesztette a repülőgép-hordozódat`);
-      cpuCarrierCount = 10;
+      infoDisplay.innerHTML = `${enemy} elsüllyesztette az anyahajódat.`
+      cpuCarrierCount = 10
+      const audio = new Audio('./voice/nein.mp3');
+      audio.play();
     }
-  
 
     if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
-      infoDisplay.innerHTML = "TE NYERTÉL"
+      infoDisplay.innerHTML = "Te nyertél!"
+      const audio = new Audio('./voice/nyert.mp3');
+      audio.play();
       gameOver()
     }
     if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) === 50) {
-      infoDisplay.innerHTML = `${enemy.toUpperCase()}`
+      infoDisplay.innerHTML = `${enemy.toUpperCase()} NYERT`
+      const audio = new Audio('./voice/vesztettel.mp3');
+      audio.play();
       gameOver()
     }
   }

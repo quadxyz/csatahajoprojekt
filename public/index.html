@@ -11,7 +11,6 @@
   var myAudio = document.getElementById('audio_playo24');
   var speakerIcon = document.getElementById('speaker_icon');
   
-  // Ha az audio még nem játszik, indítsuk el a lejátszást
   if (myAudio.paused) {
     myAudio.play().then(() => {
       console.log('Audio is playing');
@@ -20,22 +19,18 @@
     });
   }
 
-  // Némítás állapot váltása
   myAudio.muted = !myAudio.muted;
 
-  // Ikon váltás
   if (myAudio.muted) {
-    speakerIcon.innerHTML = '🔇'; // Némított ikon
+    speakerIcon.innerHTML = '🔇'; 
   } else {
-    speakerIcon.innerHTML = '🔊'; // Nem némított ikon
+    speakerIcon.innerHTML = '🔊'; 
   }
 }
 
-// Eseményfigyelő az oldal betöltésekor
 window.onload = function() {
   var speakerIcon = document.getElementById('speaker_icon');
 
-  // Beállítjuk az alapértelmezett némított ikont
   speakerIcon.innerHTML = '🔇';
 }
 
@@ -44,7 +39,6 @@ window.onload = function() {
 <body>
   <div class="speaker-icon" id="speaker_icon" onclick="toggleMute()">🔇</div>
    
-  <!-- Audio element (elrejtve) -->
   <audio id="audio_playo24" loop>
      <source src="voice/intro1.mp3" type="audio/mp3" />
      Your browser does not support the audio element.
@@ -59,4 +53,5 @@ window.onload = function() {
     </div>
     <img src="/images/torpedo.png" class="splash-battleship-image">
   </body>
-</html>
+
+  </html>
