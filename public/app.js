@@ -461,13 +461,13 @@ document.addEventListener('DOMContentLoaded', () => {
       audio.play();
     }
 
-    if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) >= 27) {
+    if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) >= 35) {
       infoDisplay.innerHTML = "Te nyertél!"
       const audio = new Audio('./voice/nyert.mp3');
       audio.play();
       gameOver()
     }
-    if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) >= 27) {
+    if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) >= 35) {
       infoDisplay.innerHTML = `${enemy.toUpperCase()} NYERT`
       const audio = new Audio('./voice/vesztettel.mp3');
       audio.play();
