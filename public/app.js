@@ -469,7 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) >= 35) {
       infoDisplay.innerHTML = `${enemy.toUpperCase()} NYERT`
-      const audio = new Audio('./voice/vesztettel.mp3');
+      const audio = new Audio('./voice/vesztettel_old.mp3');
       audio.play();
       gameOver()
     }
