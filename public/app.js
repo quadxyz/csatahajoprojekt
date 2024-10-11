@@ -373,6 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
     checkForWins()
     currentPlayer = 'enemy'
     if(gameMode === 'singlePlayer') playGameSingle()
+    console.log(destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount);
+
   }
 
   let cpuDestroyerCount = 0
@@ -399,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
     currentPlayer = 'user'
     turnDisplay.innerHTML = 'Te jössz'
   }
-
   function checkForWins() {
     let enemy = 'számítógép'
     if(gameMode === 'multiPlayer') enemy = 'ellenség'
@@ -460,13 +461,13 @@ document.addEventListener('DOMContentLoaded', () => {
       audio.play();
     }
 
-    if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) === 50) {
+    if ((destroyerCount + submarineCount + cruiserCount + battleshipCount + carrierCount) >= 27) {
       infoDisplay.innerHTML = "Te nyertél!"
       const audio = new Audio('./voice/nyert.mp3');
       audio.play();
       gameOver()
     }
-    if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) === 50) {
+    if ((cpuDestroyerCount + cpuSubmarineCount + cpuCruiserCount + cpuBattleshipCount + cpuCarrierCount) >= 27) {
       infoDisplay.innerHTML = `${enemy.toUpperCase()} NYERT`
       const audio = new Audio('./voice/vesztettel.mp3');
       audio.play();
@@ -475,7 +476,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function gameOver() {
-    isGameOver = true
-    startButton.removeEventListener('click', playGameSingle)
+    isGameOver = true;
+    startButton.removeEventListener('click', playGameSingle);
+    computerSquares.forEach(square => square.style.pointerEvents = 'none');
+
+    // Tűzijáték effektus, ha a játék véget ér
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  
+    // Eltűnik a "Te jössz" szöveg
+    turnDisplay.style.display = 'none';
+  
+    // Extra: ha többször szeretnéd elindítani a tűzijátékot
+    const intervalId = setInterval(() => {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }, 1000);
+  
+    // A tűzijáték leállítása 5 másodperc után
+    setTimeout(() => {
+      clearInterval(intervalId);
+    }, 5000);
   }
+  
 })
